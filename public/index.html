@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Net Worth AI</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">NW</div>
+          <div>
+            <h1>Net Worth AI</h1>
+            <p>Controlled product demo</p>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="Main navigation">
+          <a href="#dashboard" class="active">Dashboard</a>
+          <a href="#intake">AI Intake</a>
+          <a href="#review">Review Queue</a>
+          <a href="#goal">Goal Planner</a>
+          <a href="#api">API</a>
+        </nav>
+
+        <div class="demo-actions">
+          <button id="loadDemoButton" class="secondary-button" type="button">Load Demo</button>
+          <button id="resetDemoButton" class="ghost-button" type="button">Reset</button>
+        </div>
+
+        <div class="security-note">
+          <strong>Portfolio-safe prototype</strong>
+          <span>Use fake data only. This demo stores local state in <code>data.json</code>.</span>
+        </div>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">API-first side project</p>
+            <h2>AI-assisted intake for the messy parts of net worth.</h2>
+          </div>
+          <button id="refreshButton" class="icon-button" title="Refresh dashboard" aria-label="Refresh dashboard">↻</button>
+        </header>
+
+        <section id="dashboard" class="band">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Net worth</p>
+              <h3>Dashboard</h3>
+            </div>
+            <span id="pendingBadge" class="status-pill">0 drafts</span>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric">
+              <span>Total Assets</span>
+              <strong id="totalAssets">--</strong>
+            </article>
+            <article class="metric">
+              <span>Total Liabilities</span>
+              <strong id="totalLiabilities">--</strong>
+            </article>
+            <article class="metric primary">
+              <span>Estimated Net Worth</span>
+              <strong id="estimatedNetWorth">--</strong>
+            </article>
+            <article class="metric">
+              <span>Low-Confidence Assets</span>
+              <strong id="lowConfidenceAssets">--</strong>
+            </article>
+            <article class="metric">
+              <span>Uncertain + Pending</span>
+              <strong id="uncertainValue">--</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="band demo-story">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Demo story</p>
+              <h3>What this prototype proves</h3>
+            </div>
+          </div>
+          <div class="story-grid">
+            <article>
+              <strong>1. Capture incomplete data</strong>
+              <span>A user can describe an unclear investment or paste document text.</span>
+            </article>
+            <article>
+              <strong>2. Draft, do not decide</strong>
+              <span>The assistant classifies, scores confidence, and highlights missing fields.</span>
+            </article>
+            <article>
+              <strong>3. Confirm into ledger</strong>
+              <span>Only reviewed items affect the confirmed net worth calculation.</span>
+            </article>
+            <article>
+              <strong>4. Indicate goal levers</strong>
+              <span>The planner shows scenario math, not financial advice.</span>
+            </article>
+          </div>
+        </section>
+
+        <section id="intake" class="band two-column">
+          <div>
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Assistant</p>
+                <h3>Unknown Investment Intake</h3>
+              </div>
+            </div>
+            <form id="intakeForm" class="form-panel">
+              <label>
+                Short name
+                <input name="name" placeholder="Friend's startup investment">
+              </label>
+              <label>
+                What do you know?
+                <textarea name="description" rows="7" placeholder="I invested 2 lakh in a startup in 2021. I do not know current value. I may have sent it by NEFT."></textarea>
+              </label>
+              <label>
+                Paste document, email, transaction, or screenshot text
+                <textarea name="documentText" rows="5" placeholder="Optional: paste extracted text from a PDF, email, statement, or screenshot."></textarea>
+              </label>
+              <div class="form-row">
+                <label>
+                  Value if known
+                  <input name="value" inputmode="decimal" placeholder="200000">
+                </label>
+                <label>
+                  Currency
+                  <select name="currency">
+                    <option>INR</option>
+                    <option>USD</option>
+                    <option>EUR</option>
+                    <option>GBP</option>
+                  </select>
+                </label>
+              </div>
+              <button class="primary-button" type="submit">Create Draft</button>
+              <button id="sampleIntakeButton" class="ghost-button" type="button">Try Sample Intake</button>
+            </form>
+          </div>
+
+          <div class="helper-panel">
+            <p class="eyebrow">How it behaves</p>
+            <h3>AI drafts, you confirm.</h3>
+            <p>The assistant classifies the item, estimates confidence, lists missing fields, and keeps a visible review note. Nothing enters confirmed net worth until you approve it.</p>
+            <div class="sample-list">
+              <span>Startup equity</span>
+              <span>Gold invoice</span>
+              <span>Loan given</span>
+              <span>Property document</span>
+              <span>Insurance cash value</span>
+              <span>Tax payable</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="review" class="band">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Review</p>
+              <h3>Drafts Waiting For Approval</h3>
+            </div>
+          </div>
+          <div id="draftList" class="item-list empty-state">No drafts yet.</div>
+        </section>
+
+        <section class="band">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Ledger</p>
+              <h3>Confirmed Items</h3>
+            </div>
+          </div>
+          <div id="itemList" class="item-list empty-state">No confirmed items yet.</div>
+        </section>
+
+        <section id="goal" class="band two-column">
+          <div>
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Planning</p>
+                <h3>Goal Planner</h3>
+              </div>
+            </div>
+            <form id="goalForm" class="form-panel compact">
+              <div class="form-row">
+                <label>
+                  Target net worth
+                  <input name="targetNetWorth" inputmode="decimal">
+                </label>
+                <label>
+                  Target date
+                  <input name="targetDate" type="date">
+                </label>
+              </div>
+              <div class="form-row">
+                <label>
+                  Monthly net addition
+                  <input name="monthlyContribution" inputmode="decimal">
+                </label>
+                <label>
+                  Expected annual growth %
+                  <input name="expectedAnnualGrowthPct" inputmode="decimal">
+                </label>
+              </div>
+              <button class="primary-button" type="submit">Update Projection</button>
+            </form>
+          </div>
+          <div id="goalResult" class="projection-panel"></div>
+        </section>
+
+        <section id="api" class="band">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Developer surface</p>
+              <h3>API Endpoints</h3>
+            </div>
+          </div>
+          <div class="api-grid">
+            <code>POST /api/intake/draft</code>
+            <code>POST /api/drafts/:id/confirm</code>
+            <code>POST /api/items/manual</code>
+            <code>GET /api/summary</code>
+            <code>GET /api/items</code>
+            <code>GET /api/goal</code>
+            <code>POST /api/demo/seed</code>
+            <code>POST /api/demo/reset</code>
+          </div>
+          <pre class="code-sample"><code>{
+  "description": "I invested 2 lakh in a friend's startup in 2021.",
+  "documentText": "NEFT transfer to ABC Ventures LLP",
+  "currency": "INR"
+}</code></pre>
+        </section>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

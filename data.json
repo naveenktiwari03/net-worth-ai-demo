@@ -1,0 +1,12 @@
+{
+  "items": [],
+  "drafts": [],
+  "snapshots": [],
+  "settings": {
+    "baseCurrency": "INR",
+    "targetNetWorth": 10000000,
+    "targetDate": "2030-12-31",
+    "monthlyContribution": 50000,
+    "expectedAnnualGrowthPct": 7
+  }
+}
