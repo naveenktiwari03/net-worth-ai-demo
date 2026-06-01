@@ -16,6 +16,10 @@ People rarely have a clean, complete picture of net worth. Bank and brokerage in
 
 Users may know enough to remember an investment, but not enough to model it cleanly.
 
+The emotional problem is confidence. Users want to know whether their financial
+picture is complete, but the hardest items are often the ones most likely to be
+ignored.
+
 ## Target User
 
 Initial user:
@@ -41,6 +45,9 @@ The valuable wedge is not another dashboard. The valuable wedge is:
 messy financial input -> structured draft -> review -> net worth ledger
 ```
 
+This keeps the MVP focused on the moment where existing tools are weakest:
+turning incomplete user context into something structured enough to review.
+
 ## Safety Model
 
 AI is treated as an assistant, not a source of truth.
@@ -63,6 +70,33 @@ The demo succeeds if a user can:
 5. see net worth update
 6. understand how goal projection assumptions work
 
+## Metrics
+
+Activation:
+
+- percentage of users who create an AI-assisted draft
+- percentage of drafts that reach the review queue
+- percentage of drafts confirmed into the ledger
+
+Quality:
+
+- draft confirmation rate without edits
+- fields most commonly edited
+- missing fields resolved before confirmation
+- low-confidence items remaining after review
+
+Retention:
+
+- repeat ledger updates
+- return visits to review uncertain assets
+- goal planner interactions after ledger updates
+
+Trust:
+
+- user-reported confidence in the net worth estimate
+- number of cases where the user rejects an AI draft
+- number of cases where the product blocks or flags insufficient information
+
 ## Non-Goals For This Demo
 
 - real bank sync
@@ -72,3 +106,32 @@ The demo succeeds if a user can:
 - tax optimization
 - portfolio recommendations
 
+## Prioritization Rationale
+
+The prototype prioritizes intake, review, and ledger confirmation because those
+steps validate the central product risk: whether AI can help users convert messy
+financial memory and documents into trustworthy structured records.
+
+Bank sync, production security, and real AI model integration are intentionally
+deferred because they are expensive execution layers. They matter later, but
+they do not prove the core wedge by themselves.
+
+## Risk And Safety Considerations
+
+- AI may infer values incorrectly, so drafts must show confidence and missing
+  fields.
+- Users may mistake scenario math for advice, so the product needs clear advice
+  boundaries.
+- Financial data is sensitive, so production would require encryption,
+  authentication, audit logs, and data deletion controls.
+- B2B customers would need accuracy reporting, API reliability, tenant
+  isolation, and compliance review.
+
+## Product Manager Takeaways
+
+This project shows how I would approach an AI product in a sensitive domain:
+
+- choose a narrow workflow where AI reduces friction
+- keep the human responsible for confirmation
+- make uncertainty visible
+- define success around trust and structured outcomes, not just automation
