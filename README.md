@@ -1,30 +1,29 @@
-# Net Worth AI Demo
+# Net Worth AI
 
-People rarely have a clean, complete picture of their net worth. Bank and
-brokerage accounts are easy to connect, but meaningful assets often live outside
-clean integrations: private investments, gold, property documents, insurance
-cash value, informal loans, screenshots, PDFs, and incomplete explanations.
+Most personal finance tools are built for clean, connected data. They handle
+bank accounts and brokerage portfolios well. They struggle with the rest:
+private investments, gold, property documents, informal loans, insurance cash
+value, PDFs, and incomplete user explanations.
 
-Net Worth AI is a prototype for AI-assisted financial intake: a way to turn
-messy financial context into structured, reviewable net worth records.
+Net Worth AI is a prototype for an AI-assisted intake layer that turns messy
+financial context into reviewable, structured net worth records without making
+financial decisions on the user's behalf.
 
 ## Product Thesis
 
-Existing net worth tools are good at connected accounts. They are weaker at the
-assets and liabilities users remember imperfectly, document inconsistently, or
-cannot easily sync.
+Personal wealth increasingly lives outside connected accounts. Yet most tools
+assume structured inputs.
 
-The product explores:
+The gap is the intake layer:
 
 ```text
 messy financial context -> structured draft -> user review -> trusted ledger
 ```
 
-The bet: AI can reduce blank-page friction and help users structure incomplete
-financial information, but the user must remain in control of what enters the
-ledger.
+The bet: AI is most useful when it reduces blank-page friction for hard-to-track
+assets. But users should stay in control of financial truth.
 
-## Product Principle
+## Core Product Principle
 
 ```text
 AI drafts. Users confirm. The ledger remains the source of truth.
@@ -32,53 +31,74 @@ AI drafts. Users confirm. The ledger remains the source of truth.
 
 The assistant can:
 
-- classify assets and liabilities
-- extract or infer likely values from text
-- assign confidence
-- flag missing fields
-- suggest neutral net worth goal levers
+- Classify assets and liabilities
+- Extract or infer likely values from text
+- Assign confidence scores
+- Flag missing fields
+- Suggest neutral net worth goal levers
 
 It does not silently update net worth, and it does not provide financial advice.
 
 ## Target Users
 
-- Financially active individuals with non-standard assets or liabilities
-- Users tracking property, gold, private investments, loans, and documents
-- Fintech teams that need structured intake for asset and liability data
+- Financially active individuals with non-standard assets: property, gold,
+  private investments, informal loans
+- Users who currently track wealth across spreadsheets, documents, and memory
+- Fintech teams that need structured intake for hard-to-sync asset data
 - Financial planners who want cleaner client-provided context before review
 
-## Current Demo Experience
+## Demo Flow
 
-- Dashboard with estimated net worth, liabilities, and uncertain value
-- Intake flow for messy financial descriptions
-- AI-assisted draft creation with confidence and missing fields
-- Review queue where users confirm drafts before ledger updates
-- Ledger view for confirmed assets and liabilities
-- Goal planner using assumptions and scenario math, not advice
-- API section showing the reusable intake and confirmation workflow
+1. Load the demo portfolio
+2. Review the pending startup investment draft
+3. Confirm the draft into the ledger
+4. Watch estimated net worth and uncertain value update
+5. Try the sample intake flow with another unclear investment
+6. Adjust goal planner assumptions
+
+## Run Locally
+
+```bash
+node server.js
+```
+
+Then open: `http://127.0.0.1:3000`
+
+Or with npm:
+
+```bash
+npm run dev
+```
+
+## What Works
+
+- Local web app with dashboard, intake queue, review flow, ledger, goal planner,
+  and API section
+- Demo data seeding and reset
+- AI-assisted draft creation from free-text financial context
+- Asset and liability classification
+- Confidence scoring and missing-field detection
+- User confirmation required before any ledger change
+- Estimated net worth, liabilities, low-confidence assets, and uncertainty
+  tracking
+- Goal projection with scenario indicators, not opinions
+- API-first endpoints designed to also support a B2B extraction service
 
 ## Product Decisions
 
-- **Human confirmation over automation:** AI creates drafts, but user approval
-  is required before the ledger changes.
-- **Uncertainty is visible:** confidence scores and missing fields are surfaced
-  instead of hidden. Trust depends on showing what the system does not know.
-- **API-first by design:** the same intake engine could support a consumer net
-  worth app or a B2B enrichment API for fintech platforms.
-- **Advice boundary:** the product can structure records and show scenario math,
-  but it avoids recommendations that would become financial advice.
+**Human confirmation over automation** - AI creates structured drafts, but user
+approval is required before the ledger updates. This is intentional: financial
+tools fail when users do not trust what changed and why.
 
-## Success Metrics
+**Confidence is part of the UX** - uncertain values are surfaced, not hidden.
+This makes the product safer and the ledger more trustworthy over time.
 
-If validated with users, I would track:
+**API-first architecture** - the same core workflow can power a consumer app and
+a B2B enrichment service. The demo focuses on the harder problem first: turning
+incomplete context into structured, reviewable records.
 
-- Intake completion rate for messy assets
-- Percentage of AI drafts confirmed without edits
-- Percentage of drafts edited before confirmation
-- Missing-field resolution rate
-- Reduction in time to add a non-standard asset
-- Number of low-confidence items left unresolved
-- Repeat use after the first ledger update
+**Hard advice boundary** - the product helps structure records and show scenario
+math. It avoids any framing that crosses into financial advice.
 
 ## API Surface
 
@@ -94,55 +114,54 @@ POST /api/demo/seed
 POST /api/demo/reset
 ```
 
-## Key Risks And Open Questions
+Example intake payload:
 
-- AI may infer values incorrectly, so confidence and missing fields must be
-  obvious.
-- Users may mistake scenario math for advice, so boundaries need to be explicit.
-- Financial data is sensitive and would require authentication, encryption,
-  audit logs, and deletion controls before production launch.
-- B2B customers would need accuracy reporting, API reliability, tenant
-  isolation, and compliance review.
+```json
+{
+  "name": "Friend startup investment",
+  "description": "I invested 2 lakh in my friend's startup in 2021. I do not know the current valuation.",
+  "documentText": "NEFT transfer INR 200000 to ABC Ventures LLP",
+  "currency": "INR"
+}
+```
+
+## Success Metrics
+
+If tested with users, I would track:
+
+- Intake completion rate for messy assets
+- Percentage of AI drafts confirmed without edits
+- Percentage of drafts edited before confirmation
+- Missing-field resolution rate
+- Reduction in time to add a non-standard asset
+- Number of low-confidence items left unresolved
+- Repeat use after first ledger update
+
+## Current Limitations
+
+This is an intentionally controlled demo, not a production financial app.
+
+- No authentication or multi-user isolation
+- No real AI model connected (rule-based classification)
+- No document upload storage
+- No database beyond local `data.json`
+- No encryption or compliance review
+
+Use fake/demo data only.
 
 ## Roadmap
 
-1. Replace rule-based classification with real structured AI extraction.
-2. Add PDF/image upload and OCR.
-3. Add edit-before-confirm flow for every extracted field.
-4. Add auth, user-scoped data, and encrypted storage.
-5. Add audit logs for every AI draft and user confirmation.
-6. Add API keys and tenant isolation for B2B customers.
-7. Add tests for net worth calculations, draft quality, and goal projections.
-
-## Tech Stack
-
-- Node.js
-- Express-style HTTP server
-- Vanilla JavaScript
-- HTML/CSS
-- Local JSON data store for demo state
-
-## Run Locally
-
-```bash
-npm run dev
-```
-
-Then open:
-
-```text
-http://127.0.0.1:3000
-```
-
-## Status
-
-Prototype only. Not a production financial product. Use fake or demo data only.
-This does not provide financial advice.
+1. Replace rule-based classification with real structured AI extraction
+2. Add PDF/image upload and OCR
+3. Add authentication and user-scoped data
+4. Move storage to Postgres
+5. Add audit logs for every AI draft and user confirmation
+6. Add API keys and tenant isolation for B2B customers
+7. Add tests for net worth calculations and goal projections
 
 ## Further Reading
 
-- [docs/PRODUCT_BRIEF.md](docs/PRODUCT_BRIEF.md): problem framing, user
-  research assumptions, and product strategy
+- [docs/PRODUCT_BRIEF.md](docs/PRODUCT_BRIEF.md): problem framing, user research
+  assumptions, and product strategy
 - [docs/PM_CASE_STUDY.md](docs/PM_CASE_STUDY.md): decision log, tradeoffs, and
   what I would do differently
-- [docs/API.md](docs/API.md): API-first product surface and endpoint notes
