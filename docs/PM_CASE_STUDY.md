@@ -2,8 +2,8 @@
 
 ## One-Line Summary
 
-Net Worth AI is an AI-assisted intake prototype that turns messy financial
-context into structured, reviewable net worth records.
+Net Worth AI turns messy financial context into structured, reviewable net
+worth records.
 
 ## Why This Problem
 
@@ -23,6 +23,17 @@ focuses on the missing intake workflow.
 4. User reviews, edits, or rejects the draft.
 5. Confirmed items update the ledger.
 6. Goal projections update based on user-controlled assumptions.
+
+## Product Decisions
+
+- **Draft, do not decide:** AI reduces blank-page friction, but the user
+  confirms what becomes financial truth.
+- **Show uncertainty:** confidence and missing fields are part of the user
+  experience because hidden uncertainty damages trust.
+- **Start with intake:** the hardest product problem is not another dashboard;
+  it is turning messy financial memory into structured data.
+- **Keep an API path open:** the same workflow could become a consumer feature
+  or a B2B API for fintech platforms.
 
 ## Prioritization
 
@@ -94,6 +105,13 @@ Business Direction:
 3. Interview fintech teams about the value of an asset/liability intake API.
 4. Add real document extraction and measure accuracy against user corrections.
 5. Test whether a complete ledger increases engagement with goal planning.
+
+## What I Would Do Differently
+
+- Add edit-before-confirm earlier so every extracted field can be corrected.
+- Include an example of a rejected draft to show how the product handles
+  uncertainty safely.
+- Separate consumer and B2B roadmap assumptions more explicitly.
 
 ## PM Skills Demonstrated
 

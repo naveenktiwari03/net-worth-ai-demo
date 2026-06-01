@@ -1,6 +1,16 @@
 # API Notes
 
-This demo is API-first to make the assistant layer reusable.
+Net Worth AI is API-first because the assistant layer should be reusable beyond
+the demo UI.
+
+The product surface is intentionally simple:
+
+```text
+messy input -> draft -> review -> confirmed ledger item
+```
+
+This makes the same workflow useful for a consumer net worth app, a fintech
+dashboard, or a B2B asset/liability intake service.
 
 ## Create Intake Draft
 
@@ -26,6 +36,9 @@ Returns a draft with:
 - missing fields
 - review notes
 
+Product intent: reduce blank-page friction without silently changing the
+ledger.
+
 ## Confirm Draft
 
 ```http
@@ -40,6 +53,8 @@ POST /api/drafts/:id/confirm
 ```
 
 Moves a draft into confirmed ledger items.
+
+Product intent: keep the human responsible for financial truth.
 
 ## Summary
 
@@ -57,6 +72,9 @@ Returns:
 - uncertain value
 - pending draft count
 
+Product intent: make uncertainty visible, not hidden inside a single net worth
+number.
+
 ## Demo Helpers
 
 ```http
@@ -65,4 +83,3 @@ POST /api/demo/reset
 ```
 
 These are for local demonstration only.
-

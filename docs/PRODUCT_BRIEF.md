@@ -1,8 +1,10 @@
-# Product Brief
+# Product Brief: Net Worth AI
 
 ## Problem
 
-People rarely have a clean, complete picture of net worth. Bank and brokerage integrations cover common accounts, but many meaningful assets and liabilities remain messy:
+People rarely have a clean, complete picture of net worth. Bank and brokerage
+integrations cover common accounts, but many meaningful assets and liabilities
+remain messy:
 
 - private investments
 - startup equity
@@ -14,7 +16,8 @@ People rarely have a clean, complete picture of net worth. Bank and brokerage in
 - business ownership
 - screenshots, PDFs, and transaction records
 
-Users may know enough to remember an investment, but not enough to model it cleanly.
+Users may know enough to remember an investment, but not enough to model it
+cleanly.
 
 The emotional problem is confidence. Users want to know whether their financial
 picture is complete, but the hardest items are often the ones most likely to be
@@ -37,7 +40,7 @@ Possible B2B customer:
 - financial planning platform
 - lending or underwriting platform that needs structured asset/liability intake
 
-## Product Bet
+## Product Thesis
 
 The valuable wedge is not another dashboard. The valuable wedge is:
 
@@ -59,7 +62,28 @@ AI is treated as an assistant, not a source of truth.
 - AI can indicate scenario math.
 - Users confirm before data affects the ledger.
 
-## MVP Success Criteria
+## MVP Scope
+
+The current prototype focuses on:
+
+- messy text intake
+- structured draft creation
+- confidence scoring
+- missing-field detection
+- human confirmation before ledger updates
+- net worth summary and uncertainty tracking
+- API-first workflow that can be reused outside the UI
+
+## Non-Goals For This Demo
+
+- real bank sync
+- real investment advice
+- real document storage
+- production-grade security
+- tax optimization
+- portfolio recommendations
+
+## Success Criteria
 
 The demo succeeds if a user can:
 
@@ -97,15 +121,6 @@ Trust:
 - number of cases where the user rejects an AI draft
 - number of cases where the product blocks or flags insufficient information
 
-## Non-Goals For This Demo
-
-- real bank sync
-- real investment advice
-- real document storage
-- production-grade security
-- tax optimization
-- portfolio recommendations
-
 ## Prioritization Rationale
 
 The prototype prioritizes intake, review, and ledger confirmation because those
@@ -127,7 +142,7 @@ they do not prove the core wedge by themselves.
 - B2B customers would need accuracy reporting, API reliability, tenant
   isolation, and compliance review.
 
-## Product Manager Takeaways
+## Product Takeaways
 
 This project shows how I would approach an AI product in a sensitive domain:
 
