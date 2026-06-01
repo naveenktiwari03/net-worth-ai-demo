@@ -2,35 +2,33 @@
 
 ## Problem
 
-People rarely have a clean, complete picture of net worth. Bank and brokerage
-integrations cover common accounts, but many meaningful assets and liabilities
-remain messy:
+Most personal finance tools are built for clean, connected data. They handle
+bank accounts and brokerage portfolios well. They struggle with the rest:
 
 - private investments
 - startup equity
-- real estate
+- real estate and property documents
 - gold and jewelry
 - insurance cash value
-- money lent or borrowed
-- tax liabilities
+- informal loans
 - business ownership
-- screenshots, PDFs, and transaction records
+- PDFs, screenshots, and incomplete user explanations
 
-Users may know enough to remember an investment, but not enough to model it
-cleanly.
+The result is that users may have a polished dashboard but an incomplete view of
+their wealth.
 
 The emotional problem is confidence. Users want to know whether their financial
 picture is complete, but the hardest items are often the ones most likely to be
 ignored.
 
-## Target User
+## Target Users
 
 Initial user:
 
-- financially active individual
-- has some non-standard assets or liabilities
+- financially active individual with non-standard assets or liabilities
+- currently tracks some wealth across spreadsheets, documents, and memory
 - wants a more complete net worth picture
-- is willing to review AI-assisted drafts
+- is willing to review AI-assisted drafts before anything affects the ledger
 
 Possible B2B customer:
 
@@ -42,37 +40,46 @@ Possible B2B customer:
 
 ## Product Thesis
 
-The valuable wedge is not another dashboard. The valuable wedge is:
+Personal wealth increasingly lives outside connected accounts. Yet most tools
+assume structured inputs.
+
+The gap is the intake layer:
 
 ```text
-messy financial input -> structured draft -> review -> net worth ledger
+messy financial context -> structured draft -> user review -> trusted ledger
 ```
 
-This keeps the MVP focused on the moment where existing tools are weakest:
-turning incomplete user context into something structured enough to review.
+The bet: AI is most useful when it reduces blank-page friction for hard-to-track
+assets. But users should stay in control of financial truth.
 
-## Safety Model
+## Core Product Principle
 
-AI is treated as an assistant, not a source of truth.
+```text
+AI drafts. Users confirm. The ledger remains the source of truth.
+```
 
-- AI can draft.
-- AI can classify.
-- AI can identify missing fields.
-- AI can assign confidence.
-- AI can indicate scenario math.
-- Users confirm before data affects the ledger.
+The assistant can:
+
+- classify assets and liabilities
+- extract or infer likely values from text
+- assign confidence scores
+- flag missing fields
+- suggest neutral net worth goal levers
+
+It does not silently update net worth, and it does not provide financial advice.
 
 ## MVP Scope
 
 The current prototype focuses on:
 
-- messy text intake
+- free-text intake for messy financial context
 - structured draft creation
+- asset and liability classification
 - confidence scoring
 - missing-field detection
 - human confirmation before ledger updates
 - net worth summary and uncertainty tracking
-- API-first workflow that can be reused outside the UI
+- API-first endpoints that can support a future B2B extraction service
 
 ## Non-Goals For This Demo
 
@@ -82,6 +89,7 @@ The current prototype focuses on:
 - production-grade security
 - tax optimization
 - portfolio recommendations
+- automated ledger updates without user review
 
 ## Success Criteria
 
@@ -89,64 +97,68 @@ The demo succeeds if a user can:
 
 1. describe an unclear financial instrument
 2. get a plausible structured draft
-3. understand what is uncertain
+3. understand what is uncertain or missing
 4. confirm or edit the item
-5. see net worth update
-6. understand how goal projection assumptions work
+5. see net worth and uncertain value update
+6. understand that goal projection is scenario math, not advice
 
 ## Metrics
 
 Activation:
 
-- percentage of users who create an AI-assisted draft
+- intake completion rate for messy assets
 - percentage of drafts that reach the review queue
-- percentage of drafts confirmed into the ledger
+- first confirmed ledger item
 
 Quality:
 
-- draft confirmation rate without edits
+- percentage of AI drafts confirmed without edits
+- percentage of drafts edited before confirmation
 - fields most commonly edited
-- missing fields resolved before confirmation
-- low-confidence items remaining after review
-
-Retention:
-
-- repeat ledger updates
-- return visits to review uncertain assets
-- goal planner interactions after ledger updates
+- missing-field resolution rate
 
 Trust:
 
-- user-reported confidence in the net worth estimate
-- number of cases where the user rejects an AI draft
+- number of low-confidence items left unresolved
+- number of rejected drafts
+- user-reported confidence before and after intake
 - number of cases where the product blocks or flags insufficient information
 
-## Prioritization Rationale
+Retention:
 
-The prototype prioritizes intake, review, and ledger confirmation because those
-steps validate the central product risk: whether AI can help users convert messy
-financial memory and documents into trustworthy structured records.
+- repeat use after first ledger update
+- return visits to review uncertain assets
+- goal planner interactions after ledger updates
 
-Bank sync, production security, and real AI model integration are intentionally
-deferred because they are expensive execution layers. They matter later, but
-they do not prove the core wedge by themselves.
+## API-First Rationale
+
+The intake workflow is valuable beyond a single consumer app. The same core
+engine could power:
+
+- a net worth tracker for individuals
+- a structured intake API for fintech platforms
+- a pre-review workflow for financial planners
+- an enrichment layer for lending or underwriting tools
+
+The demo focuses on the harder problem first: turning incomplete context into
+structured, reviewable records.
 
 ## Risk And Safety Considerations
 
 - AI may infer values incorrectly, so drafts must show confidence and missing
   fields.
-- Users may mistake scenario math for advice, so the product needs clear advice
-  boundaries.
+- Users may mistake scenario math for advice, so the product needs a hard advice
+  boundary.
 - Financial data is sensitive, so production would require encryption,
-  authentication, audit logs, and data deletion controls.
+  authentication, audit logs, deletion controls, and compliance review.
 - B2B customers would need accuracy reporting, API reliability, tenant
-  isolation, and compliance review.
+  isolation, and model monitoring.
 
 ## Product Takeaways
 
-This project shows how I would approach an AI product in a sensitive domain:
+This project approaches AI in a sensitive domain by:
 
-- choose a narrow workflow where AI reduces friction
-- keep the human responsible for confirmation
-- make uncertainty visible
-- define success around trust and structured outcomes, not just automation
+- choosing a narrow workflow where AI reduces friction
+- keeping the human responsible for confirmation
+- making uncertainty visible
+- defining success around trust and structured outcomes, not just automation
